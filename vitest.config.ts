@@ -15,5 +15,20 @@ export default defineConfig({
   test: {
     environment: "node",
     include: ["server/**/*.test.ts", "server/**/*.spec.ts"],
+    workspace: [
+      {
+        test: {
+          include: ["server/**/*.test.ts", "server/**/*.spec.ts"],
+          environment: "node",
+        },
+      },
+      {
+        test: {
+          include: ["client/**/*.test.tsx", "client/**/*.spec.tsx"],
+          environment: "jsdom",
+          setupFiles: ["client/src/lib/test-setup.ts"],
+        },
+      },
+    ],
   },
 });
