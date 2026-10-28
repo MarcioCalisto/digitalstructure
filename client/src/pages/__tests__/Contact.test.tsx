@@ -1,3 +1,4 @@
+import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { Contact } from "@/components/sections/Contact";
@@ -27,7 +28,9 @@ vi.mock("@/lib/site", () => ({
     email: "test@example.com",
     whatsappNumber: "5511999999999",
   },
-  getWhatsAppUrl: () => "https://wa.me/5511999999999",
+  getWhatsAppUrl: (
+    message = "Olá Márcio, vim pelo seu site e quero conversar sobre um projeto."
+  ) => `https://wa.me/5511999999999?text=${encodeURIComponent(message)}`,
 }));
 
 describe("Contact form", () => {
@@ -53,7 +56,9 @@ describe("Contact form", () => {
     const user = userEvent.setup();
     render(<Contact />);
 
-    const submitButton = screen.getByRole("button", { name: /enviar briefing/i });
+    const submitButton = screen.getByRole("button", {
+      name: /enviar briefing/i,
+    });
     await user.click(submitButton);
 
     await waitFor(() => {
@@ -72,7 +77,9 @@ describe("Contact form", () => {
     const nameInput = screen.getByLabelText(/seu nome/i);
     await user.type(nameInput, "A");
 
-    const submitButton = screen.getByRole("button", { name: /enviar briefing/i });
+    const submitButton = screen.getByRole("button", {
+      name: /enviar briefing/i,
+    });
     await user.click(submitButton);
 
     await waitFor(() => {
@@ -87,7 +94,9 @@ describe("Contact form", () => {
     const emailInput = screen.getByLabelText(/seu e-mail/i);
     await user.type(emailInput, "email-invalido");
 
-    const submitButton = screen.getByRole("button", { name: /enviar briefing/i });
+    const submitButton = screen.getByRole("button", {
+      name: /enviar briefing/i,
+    });
     await user.click(submitButton);
 
     await waitFor(() => {
@@ -110,7 +119,9 @@ describe("Contact form", () => {
       "Preciso de um sistema para gestão de projetos"
     );
 
-    const submitButton = screen.getByRole("button", { name: /enviar briefing/i });
+    const submitButton = screen.getByRole("button", {
+      name: /enviar briefing/i,
+    });
     await user.click(submitButton);
 
     await waitFor(() => {
@@ -139,7 +150,10 @@ describe("Contact form", () => {
     const whatsappLink = screen.getByText(/falar pelo whatsapp/i);
     expect(whatsappLink.closest("a")).toHaveAttribute(
       "href",
-      "https://wa.me/5511999999999?text="
+      "https://wa.me/5511999999999?text=" +
+        encodeURIComponent(
+          "Olá Márcio, vim pelo seu site e quero conversar sobre um projeto."
+        )
     );
   });
 });
