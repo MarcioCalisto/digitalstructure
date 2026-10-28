@@ -1,3 +1,10 @@
+import { ArrowUpRight, MoveRight } from "lucide-react";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { GlassPanel } from "@/components/ui/GlassPanel";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { projects } from "@/lib/data/projects";
+import { accentClasses } from "@/lib/data/stack";
+
 export function Portfolio() {
   return (
     <section id="projetos" className="section">
@@ -9,6 +16,7 @@ export function Portfolio() {
             description="Estes blocos já estão estruturados para você substituir pelos seus projetos reais. A narrativa permanece focada no que importa: contexto, solução e impacto."
           />
         </ScrollReveal>
+
         <div className="mt-11 grid gap-4 lg:grid-cols-3">
           {projects.map((project, index) => (
             <ScrollReveal key={project.id} delay={index * 0.07}>
@@ -74,4 +82,5 @@ export function Portfolio() {
         </div>
       </div>
     </section>
-    
+  );
+}
